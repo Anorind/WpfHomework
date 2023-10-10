@@ -1,0 +1,80 @@
+﻿<Window x:Class="WpfHomework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfHomework"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <local:StringToFontWeightConverter x:Key="StringToFontWeightConverter"/>
+        <local:BooleanToFontStyleConverter x:Key="BooleanToFontStyleConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Label Content="Font Weight:" 
+               Margin="5,10,0,0"/>
+        <ComboBox x:Name="fontWeights" 
+                  SelectedIndex="0"  
+                  HorizontalAlignment="Left" 
+                  Margin="100,10,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="415"
+                  SelectionChanged="OnFontWeightChanged"/>
+
+        <Label Content="Font Style:" 
+               Margin="5,40,0,0"/>
+        <CheckBox x:Name="fontStyles" 
+                   Content="Italic" 
+                   HorizontalAlignment="Left" 
+                   Margin="100,45,0,0" 
+                   VerticalAlignment="Top"/>
+
+        <Label Content="Foreground:" 
+               Margin="5,70,0,0"/>
+        <ComboBox x:Name="fontColors" 
+                  SelectedIndex="0" 
+                  HorizontalAlignment="Left" 
+                  Margin="100,70,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="415">
+            <ComboBoxItem>
+                <Rectangle Width="415" Height="16" Fill="Black"/>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <Rectangle Width="415" Height="16" Fill="Red"/>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <Rectangle Width="415" Height="16" Fill="Blue"/>
+            </ComboBoxItem>
+        </ComboBox>
+
+        <Label Content="Font Size:" 
+               Margin="5,100,0,0"/>
+        <TextBox x:Name="fontSizeTextBox" 
+                 Text="{Binding ElementName=fontSizeSlider, Path=Value, Mode=TwoWay}" 
+                 HorizontalAlignment="Left" 
+                 Margin="100,105,0,0" 
+                 VerticalAlignment="Top"
+                 />
+        <Slider x:Name="fontSizeSlider" 
+                Minimum="8" 
+                Maximum="72" 
+                TickFrequency="1"
+                Value="{Binding ElementName=fontSizeTextBox, Path=Text, Mode=TwoWay}" 
+                HorizontalAlignment="Left" 
+                Margin="130,110,0,0" 
+                Width="360"
+                VerticalAlignment="Top" ValueChanged="fontSizeSlider_ValueChanged_1"/>
+
+        <TextBox x:Name="textBox"
+         TextWrapping="Wrap"
+        FontWeight="{Binding ElementName=fontWeights, Path=SelectedItem.Content, 
+                    Converter={StaticResource StringToFontWeightConverter}}"
+          FontStyle="{Binding ElementName=fontStyles, Path=IsChecked, 
+            Converter={StaticResource BooleanToFontStyleConverter}}"
+         Foreground="{Binding ElementName=fontColors, Path=SelectedItem.Content.Fill}"
+         FontSize="{Binding ElementName=fontSizeSlider, Path=Value}"
+         HorizontalAlignment="Left"
+         Margin="10,185,0,0"
+         VerticalAlignment="Top"
+         Width="490"
+         Height="120"/>
+    </Grid>
+</Window>
